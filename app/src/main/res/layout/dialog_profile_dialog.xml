@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:scrollbars="none">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/top_corners_bg"
+            android:orientation="vertical"
+            android:padding="25dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/main_image_view"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/userplacholder"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/CircleImage" />
+
+                <ImageView
+                    android:id="@+id/profile_edit_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_circle_gray"
+                    android:contentDescription="Edit Image"
+                    android:elevation="4dp"
+                    android:padding="8dp"
+                    android:src="@drawable/edit_square_24px"
+                    app:layout_constraintBottom_toBottomOf="@id/main_image_view"
+                    app:layout_constraintEnd_toEndOf="@id/main_image_view" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/poppins"
+                android:text="Select Title"
+                android:textSize="13sp" />
+
+            <Spinner
+                android:id="@+id/edit_therapist_title_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="40dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/profileFirstNameLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/signup_margin_top"
+                app:placeholderText="Firstname"
+                app:placeholderTextAppearance="@style/placeholderFont"
+                android:hint="@string/firstname_placeholder_hint">
+
+                <EditText
+                    android:id="@+id/firstNameProfileInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:drawableStart="@drawable/usericon"
+                    android:drawablePadding="@dimen/edit_text_icon_padding"
+                    android:fontFamily="@font/poppins"
+
+                    android:inputType="text"
+                    android:padding="@dimen/edit_text_padding"
+                    android:textSize="@dimen/edit_text_size" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/profileLastNameLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:placeholderText="Lastname"
+                app:placeholderTextAppearance="@style/placeholderFont"
+                android:layout_marginTop="@dimen/signup_margin_top"
+
+                android:hint="@string/lastname_placeholder_hint">
+
+                <EditText
+                    android:id="@+id/lastNameProfileInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="@dimen/default_margin_top"
+                    android:drawableStart="@drawable/usericon"
+                    android:drawablePadding="@dimen/edit_text_icon_padding"
+                    android:fontFamily="@font/poppins"
+
+                    android:inputType="text"
+                    android:padding="@dimen/edit_text_padding"
+                    android:textSize="@dimen/edit_text_size" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/therapist_bio_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Bio"
+                app:placeholderText="Bio"
+                app:placeholderTextAppearance="@style/placeholderFont">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/therapist_bio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"
+                    android:padding="@dimen/edit_text_padding"
+                    android:textSize="@dimen/edit_text_size" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/therapist_work_email_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Work Email"
+                app:placeholderText="Work Email"
+                app:placeholderTextAppearance="@style/placeholderFont">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/therapist_work_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:inputType="text"
+                    android:padding="@dimen/edit_text_padding"
+                    android:textSize="@dimen/edit_text_size" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/therapist_work_mobile_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Work Mobile No"
+                android:layout_marginBottom="20dp"
+                app:placeholderText="Work Mobile No"
+                app:placeholderTextAppearance="@style/placeholderFont">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/therapist_work_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:inputType="text"
+                    android:padding="@dimen/edit_text_padding"
+                    android:textSize="@dimen/edit_text_size" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/save_profile_btn"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:fontFamily="@font/poppins"
+                android:text="Save"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:layout_marginVertical="5dp"
+                android:textSize="@dimen/default_font_size" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

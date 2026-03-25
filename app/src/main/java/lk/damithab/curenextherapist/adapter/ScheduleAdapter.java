@@ -1,0 +1,113 @@
+package lk.damithab.curenextherapist.adapter;
+
+import android.graphics.Color;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+
+import lk.damithab.curenextherapist.R;
+import lk.damithab.curenextherapist.model.Booking;
+import lk.damithab.curenextherapist.model.TherapistSchedule;
+
+public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
+
+    private List<TherapistSchedule> scheduleList;
+
+    private FirebaseStorage storage;
+
+    private OnRemoveListener removeListener;
+
+    public void setOnRemoveListener(OnRemoveListener listener) {
+        this.removeListener = listener;
+    }
+
+    public void setScheduleList(List<TherapistSchedule> scheduleList) {
+        this.scheduleList = scheduleList;
+        notifyDataSetChanged();
+    }
+
+    public void handleItemRemoved(int position) {
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getItemCount());
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        int currentPosition = holder.getAbsoluteAdapterPosition();
+        if (currentPosition == RecyclerView.NO_POSITION) {
+            return;
+        }
+        if (!scheduleList.isEmpty()) {
+
+            TherapistSchedule schedule = scheduleList.get(position);
+
+            holder.scheduleTime.setText(schedule.getStartTime());
+            holder.scheduleDay.setText(getDayOfWeek(schedule.getDayOfWeek()));
+            holder.scheduleMaxAppointments.setText(String.valueOf(schedule.getMaxAppointments()));
+
+            holder.removeBtn.setOnClickListener(v -> {
+                int pos = holder.getAbsoluteAdapterPosition();
+                Log.i("Position", String.valueOf(pos));
+                if (pos != RecyclerView.NO_POSITION && removeListener != null) {
+                    removeListener.onRemoved(currentPosition);
+                }
+            });
+
+        }
+    }
+
+    private String getDayOfWeek(int dayOfWeek) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+        SimpleDateFormat dayNumFormat = new SimpleDateFormat("EEEE", Locale.getDefault());
+        return dayNumFormat.format(calendar.getTime());
+    }
+
+    @Override
+    public int getItemCount() {
+        return scheduleList.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView scheduleDay, scheduleTime, scheduleMaxAppointments;
+
+        MaterialButton removeBtn;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            this.scheduleDay = itemView.findViewById(R.id.item_therapist_schedule_day);
+            this.scheduleMaxAppointments = itemView.findViewById(R.id.item_therapist_schedule_maxappointments);
+            this.scheduleTime = itemView.findViewById(R.id.item_therapist_schedule_starttime);
+            this.removeBtn = itemView.findViewById(R.id.item_therapist_schedule_remove);
+        }
+    }
+
+
+    public interface OnRemoveListener {
+        void onRemoved(int position);
+    }
+}

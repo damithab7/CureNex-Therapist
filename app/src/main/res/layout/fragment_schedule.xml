@@ -1,8 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.ScheduleFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_schedule_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:shimmer_auto_start="true">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/item_schedule_skeleton" />
+
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+    <LinearLayout
+        android:id="@+id/schedule_main"
+        android:layout_above="@id/schedule_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="25dp"
+        tools:context=".fragment.ScheduleFragment">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="1dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="Your Schedule"
+                android:layout_marginVertical="10dp"
+                android:textSize="@dimen/sub_heading_size"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/therapist_schedule_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/schedule_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingHorizontal="25dp"
+        android:paddingVertical="10dp"
+        android:orientation="vertical">
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:id="@+id/add_schedule_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Schedule"
+            android:fontFamily="@font/poppins"
+            app:cornerRadius="10dp"/>
+    </LinearLayout>
+</RelativeLayout>

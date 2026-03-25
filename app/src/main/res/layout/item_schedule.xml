@@ -117,26 +117,25 @@
                     android:textSize="14dp"
                     android:textStyle="bold" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/item_user_edit"
-                    style="@style/Widget.Material3.Button.IconButton"
-                    android:layout_gravity="end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:insetLeft="0dp"
-                    android:insetTop="0dp"
-                    android:insetRight="0dp"
-                    android:insetBottom="0dp"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:padding="2dp"
-                    android:text="Edit"
-                    app:cornerRadius="50dp"
-                    app:icon="@drawable/editicon"
-                    app:iconGravity="textStart"
-                    app:iconPadding="5dp"
-                    app:iconSize="16dp"
-                    />
+<!--                <com.google.android.material.button.MaterialButton-->
+<!--                    android:id="@+id/item_user_edit"-->
+<!--                    style="@style/Widget.Material3.Button.IconButton"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="end"-->
+<!--                    android:insetLeft="0dp"-->
+<!--                    android:insetTop="0dp"-->
+<!--                    android:insetRight="0dp"-->
+<!--                    android:insetBottom="0dp"-->
+<!--                    android:minWidth="0dp"-->
+<!--                    android:minHeight="0dp"-->
+<!--                    android:padding="2dp"-->
+<!--                    android:text="Edit"-->
+<!--                    app:cornerRadius="50dp"-->
+<!--                    app:icon="@drawable/editicon"-->
+<!--                    app:iconGravity="textStart"-->
+<!--                    app:iconPadding="5dp"-->
+<!--                    app:iconSize="16dp" />-->
 
             </LinearLayout>
         </LinearLayout>

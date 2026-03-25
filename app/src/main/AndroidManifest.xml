@@ -12,8 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CureNex">
         <activity
+            android:name=".activity.SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.SignInActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
 
@@ -22,8 +25,7 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

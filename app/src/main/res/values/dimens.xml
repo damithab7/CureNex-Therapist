@@ -66,4 +66,7 @@
     <dimen name="item_card_margin_horizontal">5dp</dimen>
     <dimen name="list_item_spacing">16dp</dimen>
     <dimen name="list_item_spacing_half">8dp</dimen>
+
+    <dimen name="spinner_item_height">40dp</dimen>
+    <dimen name="spinner_item_font_size">13sp</dimen>
 </resources>

@@ -11,7 +11,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/home_reset_btn"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingVertical="0dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="0dp"
+            android:text="Reset"
+            android:textAllCaps="false"
+            android:textSize="@dimen/small_font_size"
+            android:textStyle="bold"
+            app:icon="@drawable/refresh_icon"
+            app:iconGravity="textEnd"
+            app:iconPadding="4dp"
+            app:iconTint="?attr/textColorCustom" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +54,8 @@
                     android:padding="@dimen/edit_text_padding"
                     android:textSize="@dimen/edit_text_size" />
             </com.google.android.material.textfield.TextInputLayout>
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageButton
+                style="@style/Widget.Material3.Button.ElevatedButton"
                 android:id="@+id/select_date_from_btn"
                 android:layout_marginStart="10dp"
                 android:layout_width="35dp"
@@ -67,7 +88,8 @@
                     android:padding="@dimen/edit_text_padding"
                     android:textSize="@dimen/edit_text_size" />
             </com.google.android.material.textfield.TextInputLayout>
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageButton
+                style="@style/Widget.Material3.Button.ElevatedButton"
                 android:id="@+id/select_date_to_btn"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -77,12 +99,14 @@
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
+            style="@style/Widget.Material3.Button.TonalButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:id="@+id/fragment_home_search_schedule"
             android:text="Search"
             android:fontFamily="@font/poppins"
+            android:textStyle="bold"
             app:cornerRadius="5dp"/>
 
         <LinearLayout
@@ -101,13 +125,31 @@
                 android:gravity="center_vertical"
                 android:includeFontPadding="false"
                 android:text="Bookings Schedule"
+                android:layout_marginVertical="10dp"
                 android:textSize="@dimen/sub_heading_size"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_home_bookings_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:shimmer_auto_start="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/item_bookings_skeleton" />
+
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/home_services_recycle"
+            android:id="@+id/home_bookings_recycle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false" />

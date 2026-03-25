@@ -3,6 +3,7 @@ package lk.damithab.curenextherapist.activity;
 import static lk.damithab.curenextherapist.util.RegexUtil.isEmailValid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,6 +29,7 @@ import lk.damithab.curenextherapist.R;
 import lk.damithab.curenextherapist.databinding.ActivitySignInBinding;
 import lk.damithab.curenextherapist.dialog.SpinnerDialog;
 import lk.damithab.curenextherapist.dialog.ToastDialog;
+import lk.damithab.curenextherapist.model.Therapist;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -35,6 +37,8 @@ public class SignInActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     private FirebaseFirestore db;
+
+    private static final String PREFERENCE_NAME = "therapist";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,10 +99,18 @@ public class SignInActivity extends AppCompatActivity {
                                     public void onSuccess(QuerySnapshot qds) {
                                         spinner.dismiss();
                                         if(!qds.isEmpty()){
+
+                                            Therapist therapist = qds.toObjects(Therapist.class).get(0);
                                             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                                            intent.putExtra("therapistId", therapist.getTherapistId());
+
+                                            SharedPreferences preferences = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
+                                            preferences.edit().putString("therapistId", therapist.getTherapistId()).apply();
+
                                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(intent);
                                             finish();
+
                                         }else{
                                             firebaseAuth.signOut();
                                             new ToastDialog(getSupportFragmentManager(), "Invalid Credentials. Please try again!");

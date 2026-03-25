@@ -17,7 +17,6 @@ public class Booking {
     private String bookingDate;
     private String bookingTime;
     private String patientName;
-    private String patientEmail;
     private String patientCity;
     private String patientAddress;
     private String patientMobile;

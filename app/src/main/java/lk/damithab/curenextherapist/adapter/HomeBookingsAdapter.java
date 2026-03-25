@@ -1,32 +1,28 @@
 package lk.damithab.curenextherapist.adapter;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import lk.damithab.curenextherapist.R;
 import lk.damithab.curenextherapist.model.Booking;
-import lk.damithab.curenextherapist.model.Therapist;
 
-public class HomeScheduleAdapter extends RecyclerView.Adapter<HomeScheduleAdapter.ViewHolder> {
+public class HomeBookingsAdapter extends RecyclerView.Adapter<HomeBookingsAdapter.ViewHolder> {
 
     private List<Booking> bookingList;
 
@@ -36,42 +32,39 @@ public class HomeScheduleAdapter extends RecyclerView.Adapter<HomeScheduleAdapte
 
     private OnCancelBtnListener listener;
 
-    public HomeScheduleAdapter(List<Booking> bookingList, OnCancelBtnListener onCancelBtnListener) {
+    private Context context;
+
+    public void setCancelListener(OnCancelBtnListener listener){
+        this.listener = listener;
+    }
+
+    public void setBookingList(List<Booking> bookingList){
         this.bookingList = bookingList;
+        notifyDataSetChanged();
+    }
+
+    public HomeBookingsAdapter(Context context) {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
-        this.listener = onCancelBtnListener;
+        this.context = context;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_schedule, parent, false);
-        return new HomeScheduleAdapter.ViewHolder(view);
+        return new HomeBookingsAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Booking booking = bookingList.get(position);
 
-        db.collection("therapist").whereEqualTo("therapistId", booking.getTherapistId())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot qds) {
-                        if(!qds.isEmpty()){
-                            Therapist therapist = qds.toObjects(Therapist.class).get(0);
-                            holder.bookingTherapistName.setText(therapist.getTitle()+" "+therapist.getName());
-                            StorageReference ref = storage.getReference(therapist.getTherapistImage());
+        int currentPosition = holder.getAbsoluteAdapterPosition();
+        if(currentPosition == RecyclerView.NO_POSITION){
+            return;
+        }
 
-//                            GlideApp.with(holder.itemView.getContext())
-//                                    .load(ref)
-//                                    .centerCrop()
-//                                    .placeholder(R.drawable.imageplaceholder2)
-//                                    .into(holder.therapistImage);
-                        }
-                    }
-                });
         holder.patientMobile.setText(booking.getPatientMobile());
         holder.patientCity.setText(booking.getPatientCity());
         holder.patientName.setText(booking.getPatientName());
@@ -80,15 +73,23 @@ public class HomeScheduleAdapter extends RecyclerView.Adapter<HomeScheduleAdapte
         holder.bookingTimeSlot.setText(booking.getBookingTime());
         holder.bookingStatus.setText(booking.getStatus());
 
-        if(Objects.equals(booking.getStatus(), "Cancelled")){
+        if ("Cancelled".equals(booking.getStatus())) {
             holder.statusCard.setCardBackgroundColor(Color.RED);
             holder.bookingStatus.setTextColor(Color.WHITE);
-            holder.cancelButton.setEnabled(false);
+            holder.cancelButton.setText("Confirm");
+        } else {
+            holder.cancelButton.setText("Cancel");
+
+            int surfaceColor = ContextCompat.getColor(context, R.color.md_theme_surfaceBright);
+            int stockColor = ContextCompat.getColor(context, R.color.stock_color);
+
+            holder.statusCard.setCardBackgroundColor(surfaceColor);
+            holder.bookingStatus.setTextColor(stockColor);
         }
 
         holder.cancelButton.setOnClickListener(v->{
             if(listener != null){
-                listener.onCancel(booking);
+                listener.onCancel(currentPosition, booking);
             }
         });
     }
@@ -100,9 +101,7 @@ public class HomeScheduleAdapter extends RecyclerView.Adapter<HomeScheduleAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView patientName, bookingTherapistName, bookingDate, bookingTimeSlot, bookingStatus, patientMobile, patientCity;
-
-        ImageView therapistImage;
+        TextView patientName, bookingDate, bookingTimeSlot, bookingStatus, patientMobile, patientCity;
 
         MaterialButton cancelButton;
 
@@ -122,6 +121,6 @@ public class HomeScheduleAdapter extends RecyclerView.Adapter<HomeScheduleAdapte
     }
 
     public interface OnCancelBtnListener{
-        void onCancel(Booking booking);
+        void onCancel(int position, Booking booking);
     }
 }

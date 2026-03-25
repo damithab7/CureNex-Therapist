@@ -1,6 +1,7 @@
 package lk.damithab.curenextherapist.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -26,17 +27,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private ActivityMainBinding binding;
 
+    private String therapistId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
+        therapistId = getIntent().getStringExtra("therapistId");
+
         setContentView(binding.getRoot());
 
         bottomNavigationView = binding.bottomNavigationView;
 
+        bottomNavigationView.setOnItemSelectedListener(this);
+
         if (savedInstanceState == null) {
-            loadFragment(new HomeFragment());
+            HomeFragment fragment = new HomeFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("therapistId", therapistId);
+            fragment.setArguments(bundle);
+
+            loadFragment(fragment);
             bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
         }
     }
@@ -53,7 +65,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (itemId == R.id.nav_home) {
-            loadFragment(new HomeFragment());
+            HomeFragment fragment = new HomeFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("therapistId", therapistId);
+            fragment.setArguments(bundle);
+
+            loadFragment(fragment);
             bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
 
         } else if (itemId == R.id.nav_schedule) {
@@ -70,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void loadFragment(Fragment fragment) {
-
         getSupportFragmentManager().beginTransaction().replace(R.id.navContainerView, fragment).commit();
 
     }
