@@ -51,13 +51,13 @@ public class SignInActivity extends AppCompatActivity {
 
         loadListeners();
 
-        if(firebaseAuth.getCurrentUser() != null){
+        if (firebaseAuth.getCurrentUser() != null) {
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
 
-        binding.signinBtn.setOnClickListener(v->{
+        binding.signinBtn.setOnClickListener(v -> {
             String email = binding.signInEmail.getText().toString();
             String password = binding.signInPassword.getText().toString();
             login(email, password);
@@ -66,7 +66,7 @@ public class SignInActivity extends AppCompatActivity {
 
     public void login(String email, String password) {
 
-        Log.d("SignInActivity", "login: email" +email);
+        Log.d("SignInActivity", "login: email" + email);
         if (email.isEmpty()) {
             binding.signInEmailLayout.setErrorEnabled(true);
             binding.signInEmailLayout.setError("Email address is required.");
@@ -91,14 +91,15 @@ public class SignInActivity extends AppCompatActivity {
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
-                    if(authResult.getUser() != null){
+                    if (authResult.getUser() != null) {
                         String uid = authResult.getUser().getUid();
-                        db.collection("therapist").whereEqualTo("uid", uid )
-                                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        db.collection("therapist").whereEqualTo("uid", uid)
+                                .get()
+                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                     @Override
                                     public void onSuccess(QuerySnapshot qds) {
                                         spinner.dismiss();
-                                        if(!qds.isEmpty()){
+                                        if (!qds.isEmpty()) {
 
                                             Therapist therapist = qds.toObjects(Therapist.class).get(0);
                                             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
@@ -111,7 +112,7 @@ public class SignInActivity extends AppCompatActivity {
                                             startActivity(intent);
                                             finish();
 
-                                        }else{
+                                        } else {
                                             firebaseAuth.signOut();
                                             new ToastDialog(getSupportFragmentManager(), "Invalid Credentials. Please try again!");
                                         }
@@ -126,7 +127,7 @@ public class SignInActivity extends AppCompatActivity {
                                 });
 
 
-                    }else{
+                    } else {
                         new ToastDialog(getSupportFragmentManager(), "No Auth found. Please try again!");
 
                     }
@@ -140,7 +141,7 @@ public class SignInActivity extends AppCompatActivity {
                 });
     }
 
-    private void loadListeners(){
+    private void loadListeners() {
         binding.signInEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable editable) {
@@ -176,7 +177,7 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
-    private void updateUI(FirebaseUser user){
+    private void updateUI(FirebaseUser user) {
         Intent intent = new Intent(SignInActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
